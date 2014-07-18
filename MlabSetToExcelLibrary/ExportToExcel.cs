@@ -250,8 +250,16 @@ namespace MlabSetToExcelLibrary
 
                             ExcelRange =
                                 ExcelSheet.Range[ExcelSheet.Cells[1, 1], ExcelSheet.Cells[rowsCount, columnsCount]];
+                            if (
+                            itemSet.AB.Length > 30)
+                            {
 
-                            ExcelSheet.Name = itemSet.AB;
+                                ExcelSheet.Name = itemSet.AB.Substring(0, 30).Replace("/","|").Replace("\\","|");
+                            }
+                            else
+                            {
+                                ExcelSheet.Name = itemSet.AB.Replace("/", "|").Replace("\\", "|");
+                            }
 
                             data = PrepareListForSet1(itemSet);
 
@@ -301,7 +309,7 @@ namespace MlabSetToExcelLibrary
             }
             catch (Exception ex)
             {
-                return ex.Data + "\r\n" + ex.Message + "\r\n" + ex.Source + "\r\n" + ex.InnerException  + "\r\n" + 
+                return ex.Data + "\r\n" + ex.Message + "\r\n" + ex.Source + "\r\n" + ex.InnerException + "\r\n" +
                        ex.StackTrace;
             }
             finally
