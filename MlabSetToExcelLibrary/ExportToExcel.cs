@@ -21,7 +21,6 @@ namespace MlabSetToExcelLibrary
             {
                 //Создаём приложение.
                 Excel.Application objExcel = new Excel.Application();
-                objExcel.Workbooks.Add();
                 obj = objExcel;
 
             }
@@ -207,6 +206,68 @@ namespace MlabSetToExcelLibrary
             range.ColumnWidth = 10;
         }
 
+        public static int OpenDocument(string filepath, bool? csv)
+        {
+            var ExcelApp = CreateExcelObj();
+            try
+            {
+                if (csv == true)
+                {
+                    ExcelApp.Visible = true;
+                    var wb = ExcelApp.Workbooks.Open(filepath, 0, true, Excel.XlFileFormat.xlCSV, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+                    return 1;
+                }
+                else
+                {
+                    ExcelApp.Visible = true;
+                    var wb = ExcelApp.Workbooks.Open(filepath, 0, true, Type.Missing, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+                    return 1;
+                }
+               
+            }
+
+            catch
+            {
+                releaseObject(ExcelApp);
+                return 0;
+            }
+        }
+
+        public static int OpenExcelDocument(string filepath)
+        {
+            var ExcelApp = CreateExcelObj();
+            try
+            {
+                //Excel.XlFileFormat.xlCSV
+                ExcelApp.Visible = true;
+                var wb = ExcelApp.Workbooks.Open(filepath, 0, true, Type.Missing, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+                return 1;
+            }
+
+        catch
+            {
+                releaseObject(ExcelApp);
+                return 0;
+            }
+        }
+
+        private static void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+            }
+            finally
+            {
+                GC.Collect();
+            }
+        } 
+
         public static string GetExcelDocumentSet(SetViewModel obj, string filePath, int setType)
         {
             Excel.Application ExcelApp;
@@ -218,9 +279,16 @@ namespace MlabSetToExcelLibrary
             int columnsCount;
             dynamic data;
 
+            ExcelApp = CreateExcelObj();
+            ExcelWorkbooks = ExcelApp.Workbooks;
+            ExcelApp.ScreenUpdating = false;
+            ExcelApp.DisplayAlerts = false;
+            ExcelWorkbook = ExcelWorkbooks.Add();
 
             try
             {
+              
+
                 if (String.IsNullOrEmpty(filePath))
                 {
                     filePath = Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)).FullName;
@@ -231,11 +299,7 @@ namespace MlabSetToExcelLibrary
                 }
                 filename = obj.Set.First().Project + " - Сет " + obj.Set.First().Set + " - " + obj.Set.First().TestMethod + ".xlsx";
 
-                ExcelApp = CreateExcelObj();
-                ExcelWorkbooks = ExcelApp.Workbooks;
-                ExcelApp.ScreenUpdating = false;
-                ExcelApp.DisplayAlerts = false;
-                ExcelWorkbook = ExcelWorkbooks.Add();
+
 
 
                 switch (setType)
@@ -309,12 +373,21 @@ namespace MlabSetToExcelLibrary
             }
             catch (Exception ex)
             {
-                return ex.Data + "\r\n" + ex.Message + "\r\n" + ex.Source + "\r\n" + ex.InnerException + "\r\n" +
-                       ex.StackTrace;
+
+                throw ex;
             }
             finally
             {
+                while (Marshal.ReleaseComObject(ExcelWorkbook) > 0)
+                { }
+                while (Marshal.ReleaseComObject(ExcelWorkbooks) > 0)
+                { }
 
+
+                ExcelApp.Quit();
+
+                while (Marshal.ReleaseComObject(ExcelApp) > 0)
+                { }
                 GC.Collect();
 
             }
