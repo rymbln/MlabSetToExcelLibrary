@@ -86,6 +86,7 @@ namespace MlabSetToExcelLibrary
 
             // formatting All sheet
             sheet.PageSetup.PrintGridlines = false;
+            ;
             sheet.PageSetup.Orientation = Excel.XlPageOrientation.xlPortrait;
             sheet.PageSetup.PaperSize = Excel.XlPaperSize.xlPaperA4;
             sheet.PageSetup.RightFooter = "Дата: &DD Стр &PP из &NN";
@@ -101,54 +102,55 @@ namespace MlabSetToExcelLibrary
             sheet.PageSetup.LeftMargin = 50;
             sheet.PageSetup.Order = Excel.XlOrder.xlOverThenDown;
 
-            // Foramatting test method
-            sheet.Range[sheet.Cells[1, 1], sheet.Cells[1, obj.MICList.Count + 5]].Merge();
-            FormatHeaderText1(sheet.Range[sheet.Cells[1, 1], sheet.Cells[1, 3]]);
+            //// Foramatting test method
+            //sheet.Range[sheet.Cells[1, 1], sheet.Cells[1, obj.MICList.Count + 5]].Merge();
+            //FormatHeaderText1(sheet.Range[sheet.Cells[1, 1], sheet.Cells[1, 3]]);
 
-            // Formatting Set Number
-            sheet.Range[sheet.Cells[3, 1], sheet.Cells[3, 4]].Merge();
-            FormatHeaderText1(sheet.Range[sheet.Cells[3, 1], sheet.Cells[3, 1]]);
+            //// Formatting Set Number
+            //sheet.Range[sheet.Cells[3, 1], sheet.Cells[3, 4]].Merge();
+            //FormatHeaderText1(sheet.Range[sheet.Cells[3, 1], sheet.Cells[3, 1]]);
 
-            // Formatting Set Number
-            sheet.Range[sheet.Cells[3, 5], sheet.Cells[3, obj.MICList.Count + 5]].Merge();
-            FormatHeaderText1(sheet.Range[sheet.Cells[3, 5], sheet.Cells[3, obj.MICList.Count + 5]]);
+            //// Formatting Set Number
+            //sheet.Range[sheet.Cells[3, 5], sheet.Cells[3, obj.MICList.Count + 5]].Merge();
+            //FormatHeaderText1(sheet.Range[sheet.Cells[3, 5], sheet.Cells[3, obj.MICList.Count + 5]]);
 
             //Formatting table with MO
-            FormatTableCells1(sheet.Range[sheet.Cells[5, 1], sheet.Cells[5 + obj.MOList.Count, obj.MICList.Count + 5]]);
-
+            FormatTableCells1(sheet.Range[sheet.Cells[1, 1], sheet.Cells[1 + obj.MOList.Count, obj.MICList.Count + 5]]);
+            sheet.PageSetup.Zoom = false;
+            sheet.PageSetup.FitToPagesWide = 1;
+         //   sheet.PageSetup.FitToPagesTall = 0;
             //Formatting Control MO Header
-            sheet.Range[sheet.Cells[6 + obj.MOList.Count, 1], sheet.Cells[6 + obj.MOList.Count, obj.MICList.Count + 5]].Merge();
-            sheet.Range[sheet.Cells[6 + obj.MOList.Count, 1], sheet.Cells[6 + obj.MOList.Count, obj.MICList.Count + 5]].RowHeight = 15;
+            sheet.Range[sheet.Cells[2 + obj.MOList.Count, 1], sheet.Cells[2 + obj.MOList.Count, obj.MICList.Count + 5]].Merge();
+            sheet.Range[sheet.Cells[2 + obj.MOList.Count, 1], sheet.Cells[2 + obj.MOList.Count, obj.MICList.Count + 5]].RowHeight = 15;
             FormatHeaderControlMOText1(
                 sheet.Range[
-                    sheet.Cells[6 + obj.MOList.Count, 1], sheet.Cells[6 + obj.MOList.Count, obj.MICList.Count + 5]]);
+                    sheet.Cells[2 + obj.MOList.Count, 1], sheet.Cells[2 + obj.MOList.Count, obj.MICList.Count + 5]]);
 
           
 
             // Formatting table with control MO
-            FormatTableCells1(sheet.Range[sheet.Cells[5 + obj.MOList.Count + 1, 1], sheet.Cells[5 + obj.MOList.Count + 1 + obj.ControlMOList.Count, obj.MICList.Count + 5]]);
+            FormatTableCells1(sheet.Range[sheet.Cells[1 + obj.MOList.Count + 1, 1], sheet.Cells[1 + obj.MOList.Count + 1 + obj.ControlMOList.Count, obj.MICList.Count + 5]]);
             FormatHeaderControlMOText1(sheet.Range[
-                    sheet.Cells[7 + obj.MOList.Count, 2], sheet.Cells[6 + obj.MOList.Count + obj.ControlMOList.Count, 4]]);
+                    sheet.Cells[3 + obj.MOList.Count, 2], sheet.Cells[1 + obj.MOList.Count + obj.ControlMOList.Count, 4]]);
             //Formatting Top Row
-            sheet.Range[sheet.Cells[5, 1], sheet.Cells[5, obj.MICList.Count + 5]].ColumnWidth = 6;
+            sheet.Range[sheet.Cells[1, 1], sheet.Cells[5, obj.MICList.Count + 5]].ColumnWidth = 6;
             //Formatting Left Columns
-            sheet.Range[sheet.Cells[5, 1], sheet.Cells[5 + obj.MOList.Count, 1]].ColumnWidth = 6;
-            sheet.Range[sheet.Cells[5, 2], sheet.Cells[5 + obj.MOList.Count, 2]].ColumnWidth = 8;
-            sheet.Range[sheet.Cells[5, 3], sheet.Cells[5 + obj.MOList.Count, 3]].ColumnWidth = 8;
-            sheet.Range[sheet.Cells[5, 4], sheet.Cells[5 + obj.MOList.Count, 4]].ColumnWidth = 14;
+            sheet.Range[sheet.Cells[1, 1], sheet.Cells[5 + obj.MOList.Count, 1]].ColumnWidth = 6;
+            sheet.Range[sheet.Cells[1, 2], sheet.Cells[5 + obj.MOList.Count, 2]].ColumnWidth = 8;
+            sheet.Range[sheet.Cells[1, 3], sheet.Cells[5 + obj.MOList.Count, 3]].ColumnWidth = 8;
+            sheet.Range[sheet.Cells[1, 4], sheet.Cells[5 + obj.MOList.Count, 4]].ColumnWidth = 14;
             //Formatting Right Columns
-            sheet.Range[sheet.Cells[5, obj.MICList.Count + 5], sheet.Cells[5 + obj.MOList.Count, obj.MICList.Count + 5]].ColumnWidth = 8;
+            sheet.Range[sheet.Cells[1, obj.MICList.Count + 5], sheet.Cells[1 + obj.MOList.Count, obj.MICList.Count + 5]].ColumnWidth = 8;
 
 
-            sheet.Cells[obj.MOList.Count + obj.ControlMOList.Count + 7, 2] = "Проверил:";
+            sheet.Cells[obj.MOList.Count + obj.ControlMOList.Count + 3, 2] = "Проверил:";
 
             // Разбиваем на две части
             if (obj.MOList.Count > 48)
             {
                 sheet.ResetAllPageBreaks();
-                sheet.DisplayPageBreaks = true;
-                sheet.HPageBreaks.Add(sheet.Cells[53, 1]);
-                sheet.Range[sheet.Cells[53, obj.MICList.Count + 5], sheet.Cells[53, obj.MICList.Count + 5]].PageBreak = 1;
+               // sheet.DisplayPageBreaks = true;
+                sheet.HPageBreaks.Add(sheet.Cells[50, 1]);
             }
         }
 
@@ -196,8 +198,8 @@ namespace MlabSetToExcelLibrary
             range.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             range.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
             range.WrapText = true;
-            range.RowHeight = 18;
-            range.ColumnWidth = 6;
+            range.RowHeight = 19;
+            range.ColumnWidth = 5;
         }
 
         private static void FormatTableCells2(Excel.Range range)
@@ -415,39 +417,39 @@ namespace MlabSetToExcelLibrary
             var columnsCount = obj.MICList.Count + 5;
             object[,] data = new object[rowsCount, columnsCount];
 
-            data[0, 0] = "Метод тестирования: " + obj.TestMethod;
-            data[2, 0] = "Сет № " + obj.Set;
-            data[2, 4] = obj.AB;
+            //data[0, 0] = "Метод тестирования: " + obj.TestMethod;
+            //data[2, 0] = "Сет № " + obj.Set;
+            //data[2, 4] = obj.AB;
 
-            data[4, 0] = "Ячейка";
-            data[4, 1] = "№";
-            data[4, 2] = "Муз. №.";
-            data[4, 3] = "МО";
+            data[0, 0] = "Ячейка";
+            data[0, 1] = "№";
+            data[0, 2] = "Муз. №.";
+            data[0, 3] = "МО";
 
             for (int i = 0; i < obj.MICList.Count; i++)
             {
-                data[4, 4 + i] = obj.MICList[i];
+                data[0, 4 + i] = obj.MICList[i];
             }
 
-            data[4, 4 + obj.MICList.Count] = "МПК";
+            data[0, 4 + obj.MICList.Count] = "МПК";
 
             for (int i = 0; i < obj.MOList.Count; i++)
             {
-                data[5 + i, 0] = obj.MOList[i].Cell;
-                data[5 + i, 1] = obj.MOList[i].Number;
-                data[5 + i, 2] = obj.MOList[i].MuseumNumber;
-                data[5 + i, 3] = obj.MOList[i].MO;
+                data[1 + i, 0] = obj.MOList[i].Cell;
+                data[1 + i, 1] = obj.MOList[i].Number;
+                data[1 + i, 2] = obj.MOList[i].MuseumNumber;
+                data[1 + i, 3] = obj.MOList[i].MO;
 
             }
 
-            data[5 + obj.MOList.Count, 0] = "Контрольн.МО";
+            data[1 + obj.MOList.Count, 0] = "Контрольн.МО";
 
             for (int i = 0; i < obj.ControlMOList.Count; i++)
             {
-                data[6 + obj.MOList.Count + i, 0] = obj.ControlMOList[i].Cell;
-                data[6 + obj.MOList.Count + i, 1] = obj.ControlMOList[i].Number;
-                data[6 + obj.MOList.Count + i, 2] = obj.ControlMOList[i].MuseumNumber;
-                data[6 + obj.MOList.Count + i, 3] = obj.ControlMOList[i].MO;
+                data[2 + obj.MOList.Count + i, 0] = obj.ControlMOList[i].Cell;
+                data[2 + obj.MOList.Count + i, 1] = obj.ControlMOList[i].Number;
+                data[2 + obj.MOList.Count + i, 2] = obj.ControlMOList[i].MuseumNumber;
+                data[2 + obj.MOList.Count + i, 3] = obj.ControlMOList[i].MO;
             }
 
             return data;
