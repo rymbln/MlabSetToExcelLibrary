@@ -61,7 +61,7 @@ namespace MlabSetToExcelLibrary
             FormatTableCells2(sheet.Range[sheet.Cells[1, 1], sheet.Cells[3 + obj.Set.First().MOList.Count + obj.Set.First().ControlMOList.Count, obj.Set.Count + 3]]);
 
             //Formatting AB Header
-            sheet.Range[sheet.Cells[1, 1], sheet.Cells[1, obj.Set.Count() + 3]].RowHeight = 25;
+            sheet.Range[sheet.Cells[1, 1], sheet.Cells[1, obj.Set.Count() + 3]].RowHeight = 18;
             sheet.Range[sheet.Cells[2, 1], sheet.Cells[2, obj.Set.Count() + 3]].RowHeight = 80;
             sheet.Range[sheet.Cells[2, 4], sheet.Cells[2, obj.Set.Count() + 3]].Orientation = 90;
 
@@ -123,6 +123,8 @@ namespace MlabSetToExcelLibrary
                 sheet.Range[
                     sheet.Cells[6 + obj.MOList.Count, 1], sheet.Cells[6 + obj.MOList.Count, obj.MICList.Count + 5]]);
 
+          
+
             // Formatting table with control MO
             FormatTableCells1(sheet.Range[sheet.Cells[5 + obj.MOList.Count + 1, 1], sheet.Cells[5 + obj.MOList.Count + 1 + obj.ControlMOList.Count, obj.MICList.Count + 5]]);
             FormatHeaderControlMOText1(sheet.Range[
@@ -138,7 +140,16 @@ namespace MlabSetToExcelLibrary
             sheet.Range[sheet.Cells[5, obj.MICList.Count + 5], sheet.Cells[5 + obj.MOList.Count, obj.MICList.Count + 5]].ColumnWidth = 8;
 
 
-            sheet.Cells[obj.MOList.Count + obj.ControlMOList.Count + 10, 2] = "Проверил:";
+            sheet.Cells[obj.MOList.Count + obj.ControlMOList.Count + 7, 2] = "Проверил:";
+
+            // Разбиваем на две части
+            if (obj.MOList.Count > 48)
+            {
+                sheet.ResetAllPageBreaks();
+                sheet.DisplayPageBreaks = true;
+                sheet.HPageBreaks.Add(sheet.Cells[53, 1]);
+                sheet.Range[sheet.Cells[53, obj.MICList.Count + 5], sheet.Cells[53, obj.MICList.Count + 5]].PageBreak = 1;
+            }
         }
 
         private static void FormatHeaderText1(Excel.Range range)
@@ -185,7 +196,7 @@ namespace MlabSetToExcelLibrary
             range.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             range.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
             range.WrapText = true;
-            range.RowHeight = 25;
+            range.RowHeight = 18;
             range.ColumnWidth = 6;
         }
 
@@ -204,6 +215,7 @@ namespace MlabSetToExcelLibrary
             range.WrapText = true;
             range.RowHeight = 30;
             range.ColumnWidth = 10;
+
         }
 
         public static int OpenDocument(string filepath, bool? csv)
@@ -305,10 +317,11 @@ namespace MlabSetToExcelLibrary
                 switch (setType)
                 {
                     case 1:
+                       
                         foreach (var itemSet in obj.Set)
                         {
                             ExcelSheet = ExcelWorkbook.Sheets.Add();
-
+                           
                             rowsCount = itemSet.MOList.Count + 8 + itemSet.ControlMOList.Count + 1;
                             columnsCount = itemSet.MICList.Count + 5;
 
@@ -329,6 +342,7 @@ namespace MlabSetToExcelLibrary
 
                             ExcelRange.Value = data;
                             FormatSheetForSet1(ExcelSheet, itemSet);
+                       
                             Marshal.ReleaseComObject(ExcelRange);
                             Marshal.ReleaseComObject(ExcelSheet);
 
@@ -357,16 +371,16 @@ namespace MlabSetToExcelLibrary
                 ExcelWorkbook.SaveAs(filePath + "\\" + filename, Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, false, false, Excel.XlSaveAsAccessMode.xlNoChange, Excel.XlSaveConflictResolution.xlLocalSessionChanges, Type.Missing, Type.Missing);
 
 
-                while (Marshal.ReleaseComObject(ExcelWorkbook) > 0)
-                { }
-                while (Marshal.ReleaseComObject(ExcelWorkbooks) > 0)
-                { }
+                //while (Marshal.ReleaseComObject(ExcelWorkbook) > 0)
+                //{ }
+                //while (Marshal.ReleaseComObject(ExcelWorkbooks) > 0)
+                //{ }
 
 
-                ExcelApp.Quit();
+                //ExcelApp.Quit();
 
-                while (Marshal.ReleaseComObject(ExcelApp) > 0)
-                { }
+                //while (Marshal.ReleaseComObject(ExcelApp) > 0)
+                //{ }
 
                 return filePath + "\\" + filename;
 
